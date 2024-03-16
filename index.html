@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generador de Códigos QR</title>
+
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="shortcut icon" href="./favicon-16x16.png" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest">
+
+    >
+    <!-- Asegúrate de que la ruta de la biblioteca qrcode.min.js es correcta -->
+    <script src="./davidshimjs-qrcodejs-04f46c6/qrcode.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:wght@100;400&display=swap"
+      rel="stylesheet"
+    />
+    <script src="script.js"></script>
+    <script src="html2canvas.js"></script>
+  </head>
+  <body>
+    <div class="container" id="contenedor">
+      <div class="input-Qr">
+        <label for="url">Ingresa tu url</label>
+        <input type="text" id="url" />
+      </div>
+
+      <div class="iColor">
+        <div>
+          <label for="color">Color de fondo</label>
+          <input type="color" value="#ffffff" id="bg-color" />
+        </div>
+        <div>
+          <label for="color">Color de diseño</label>
+          <input type="color" value="#000000" id="front-color" />
+        </div>
+      </div>
+      <button type="submit" onclick="createQRCode()">Generar QR</button>
+
+      <p id="msg"></p>
+
+      <div id="qrcode" class="Qrcode"></div>
+    </div>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .then((registration) => {
+              console.log("Service Worker registrado con éxito:", registration);
+            })
+            .catch((error) => {
+              console.log("Error al registrar el Service Worker:", error);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

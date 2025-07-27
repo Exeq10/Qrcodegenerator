@@ -1,91 +1,46 @@
-// Esta función será llamada cuando se haga clic en el botón
-const createQRCode = () => {
-  // Obtén una referencia al elemento donde quieres mostrar el código QR
-  /* variables */
-  const container = document.getElementById('contenedor')
-  const url = document.getElementById("url").value;
-  const colorBg = document.getElementById("bg-color").value;
-  const colorfront = document.getElementById("front-color").value;
-  const msg = document.getElementById('msg')
+let qrCode;
 
- 
-  var el = document.getElementById("qrcode");
+function createQRCode() {
+  const url = document.getElementById('url').value;
+  const bgColor = document.getElementById('bg-color').value;
+  const frontColor = document.getElementById('front-color').value;
+  const logo = document.getElementById('logo').value;
+  const shape = document.getElementById('shape').value;
+  const eye = document.getElementById('eye').value;
+  const ecLevel = document.getElementById('ec-level').value;
 
+  const container = document.getElementById('qrcode');
+  container.innerHTML = '';
 
- 
-
-  el.innerHTML = ``;
-  
-
-
-    if(url) {
-
-         // Crea un nuevo objeto QRCode con el texto que quieres codificar
-  var qr = new QRCode(el, {
-    text: `${url}`,
-    width: 350,
-    height: 350,
-    colorDark: `${colorfront || "#00000"} `,
-    colorLight: `${colorBg || "#ffff"}   `,
-    correctLevel: QRCode.CorrectLevel.H,
+  qrCode = new QRCodeStyling({
+    width: 300,
+    height: 300,
+    data: url || "https://ejemplo.com",
+    image: logo || "",
+    qrOptions: {
+      errorCorrectionLevel: ecLevel
+    },
+    dotsOptions: {
+      color: frontColor,
+      type: shape
+    },
+    cornersSquareOptions: {
+      type: eye
+    },
+    backgroundOptions: {
+      color: bgColor
+    },
+    imageOptions: {
+      crossOrigin: "anonymous",
+      margin: 5
+    }
   });
 
-
-  const botonExistente = document.getElementById('Download');
-
-// Si existe, elimina el botón existente
-if (botonExistente) {
-  botonExistente.parentNode.removeChild(botonExistente);
+  qrCode.append(container);
 }
 
-  const button = document.createElement('button')
-  button.textContent = 'Descargar QR'
-  button.id ='Download'
-  button.addEventListener('click', download)
-
-
-  
-
-  container.appendChild(button)
-
-
-
-
- 
-    }
-
-
-
-    else{
-
-        msg.textContent = 'Debe ingresar una url '
-
-        setTimeout(() => {
-            
-            msg.textContent = ''
-        }, 1500);
-    }
-
-
-
-};
-
-
-const download = () => {
-
-
-        const elemento = document.getElementById('qrcode');
-  
-        html2canvas(elemento).then(canvas => {
-          // Crea un elemento <a> para descargar la imagen
-          const enlace = document.createElement('a');
-          enlace.download = 'codigoQr.png';
-  
-          // Convierte el canvas a una imagen y establece el atributo href del enlace
-          enlace.href = canvas.toDataURL('image/png');
-  
-          // Simula un clic en el enlace para iniciar la descarga
-          enlace.click();
-        });
-      }
-    
+function downloadQR() {
+  if (qrCode) {
+    qrCode.download({ name: "qr-personalizado", extension: "png" });
+  }
+}

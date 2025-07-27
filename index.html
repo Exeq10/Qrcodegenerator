@@ -1,67 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ffffff">
-
-    <title>Generador de Códigos QR</title>
-
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="shortcut icon" href="./favicon-16x16.png" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
-    <link rel="manifest" href="/site.webmanifest">
-
-    
-    <!-- Asegúrate de que la ruta de la biblioteca qrcode.min.js es correcta -->
-    <script src="./davidshimjs-qrcodejs-04f46c6/qrcode.min.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:wght@100;400&display=swap"
-      rel="stylesheet"
-    />
-    <script src="script.js"></script>
-    <script src="html2canvas.js"></script>
-  </head>
-  <body>
-    <div class="container" id="contenedor">
-      <div class="input-Qr">
-        <label for="url">Ingresa tu url</label>
-        <input type="text" id="url" />
-      </div>
-
-      <div class="iColor">
-        <div>
-          <label for="color">Color de fondo</label>
-          <input type="color" value="#ffffff" id="bg-color" />
-        </div>
-        <div>
-          <label for="color">Color de diseño</label>
-          <input type="color" value="#000000" id="front-color" />
-        </div>
-      </div>
-      <button type="submit" onclick="createQRCode()">Generar QR</button>
-
-      <p id="msg"></p>
-
-      <div id="qrcode" class="Qrcode"></div>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de Códigos QR avanzado</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div>
+      <label for="url">URL o texto:</label>
+      <input type="text" id="url" placeholder="https://tusitio.com" />
     </div>
-    <script>
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () => {
-          navigator.serviceWorker
-            .register("/service-worker.js")
-            .then((registration) => {
-              console.log("Service Worker registrado con éxito:", registration);
-            })
-            .catch((error) => {
-              console.log("Error al registrar el Service Worker:", error);
-            });
-        });
-      }
-    </script>
-  </body>
+
+    <div class="iColor">
+      <div>
+        <label>Color de fondo</label>
+        <input type="color" value="#ffffff" id="bg-color" />
+      </div>
+      <div>
+        <label>Color de diseño</label>
+        <input type="color" value="#000000" id="front-color" />
+      </div>
+    </div>
+
+    <div>
+      <label for="logo">Logo (URL o ruta local):</label>
+      <input type="text" id="logo" placeholder="ej: ./logo.png o https://..." />
+    </div>
+
+    <div>
+      <label for="shape">Forma de puntos:</label>
+      <select id="shape">
+        <option value="square">Cuadrado</option>
+        <option value="dots">Puntos</option>
+        <option value="rounded">Redondeado</option>
+        <option value="classy">Classy</option>
+        <option value="classy-rounded">Classy Redondeado</option>
+        <option value="extra-rounded">Extra Redondeado</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="eye">Forma de esquinas (eye):</label>
+      <select id="eye">
+        <option value="square">Cuadrado</option>
+        <option value="circle">Círculo</option>
+      </select>
+    </div>
+
+    <div>
+      <label for="ec-level">Nivel de corrección de error:</label>
+      <select id="ec-level">
+        <option value="L">L (7%)</option>
+        <option value="M" selected>M (15%)</option>
+        <option value="Q">Q (25%)</option>
+        <option value="H">H (30%)</option>
+      </select>
+    </div>
+
+    <button onclick="createQRCode()">Generar QR</button>
+    <button onclick="downloadQR()">Descargar QR</button>
+
+    <div id="qrcode" style="margin-top: 20px;"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
